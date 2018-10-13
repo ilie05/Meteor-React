@@ -1,8 +1,14 @@
 import {Meteor} from 'meteor/meteor'
 import {Posts} from '/db';
+import {PostTypesEnum} from '/imports/enums/postTypes';
 
 Meteor.methods({
     'post.create'(post) {
+        //validate post type
+        if (Object.values(PostTypesEnum).indexOf(post.type) < 0){
+           throw new Meteor.Error('no-type', 'This post type does not exist!');
+        }
+
         // Validation of date
         if(post.createdAt != (new Date())){
              post.createdAt = new Date();
@@ -14,19 +20,23 @@ Meteor.methods({
         }
 
         Posts.insert(post);
-        console.log(post)
     },
 
     'post.list' () {
-        console.log(Posts.find().fetch())
         return Posts.find().fetch();
     },
 
     'post.edit' (_id, post) {
+        if (Object.values(PostTypesEnum).indexOf(post.type) < 0){
+           throw new Meteor.Error('no-type', 'This post type does not exist!');
+        }
+
         Posts.update(_id, {
             $set: {
                 title: post.title,
-                description: post.description
+                description: post.description,
+                type: post.type,
+                createdAt: new Date()
             }
         });
     },

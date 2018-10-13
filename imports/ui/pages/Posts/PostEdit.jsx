@@ -1,6 +1,7 @@
 import React from 'react';
-import {AutoForm, AutoField, LongTextField} from 'uniforms-unstyled';
+import {AutoForm, AutoField, SelectField, LongTextField} from 'uniforms-unstyled';
 import PostSchema from '/db/posts/schema';
+import {PostTypesEnum, PostTypesEnumArray} from '/imports/enums/postTypes';
 
 export default class PostEdit extends React.Component {
     constructor() {
@@ -36,7 +37,7 @@ export default class PostEdit extends React.Component {
                 <AutoForm onSubmit={this.submit} schema={PostSchema} model={post}>
                     <AutoField name="title"/>
                     <LongTextField name="description"/>
-
+                    <SelectField name="type" options={PostTypesEnumArray}/>
                     <button type='submit'>Edit post</button>
                     <button onClick={() => history.push('/posts')}>Back to posts</button>
                 </AutoForm>
