@@ -11,7 +11,6 @@
     "fbjs": "^1.0.0",
     "history": "^4.7.2",
     "meteor-node-stubs": "^0.3.2",
-    "moment": "^2.20.1",
     "prop-types": "^15.6.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",

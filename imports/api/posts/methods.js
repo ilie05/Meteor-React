@@ -3,10 +3,22 @@ import {Posts} from '/db';
 
 Meteor.methods({
     'post.create'(post) {
+        // Validation of date
+        if(post.createdAt != (new Date())){
+             post.createdAt = new Date();
+        }
+
+        //Number of views validation
+        if(post.views){
+            post.views = 0;
+        }
+
         Posts.insert(post);
+        console.log(post)
     },
 
     'post.list' () {
+        console.log(Posts.find().fetch())
         return Posts.find().fetch();
     },
 

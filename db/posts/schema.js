@@ -6,5 +6,8 @@ export default new SimplSchema({
     userId: {
         type: String,
         optional: true
-    }
+    },
+    views: Number,
+    createdAt: Date,
+    type: String
 });
