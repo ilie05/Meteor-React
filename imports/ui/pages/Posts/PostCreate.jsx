@@ -1,19 +1,11 @@
 import React from 'react';
 import {AutoForm, AutoField, LongTextField, SelectField, DateField, NumField} from 'uniforms-unstyled';
 import PostSchema from '/db/posts/schema';
+import {PostTypesEnum, PostTypesEnumArray} from '/imports/enums/postTypes';
 
 export default class PostCreate extends React.Component {
     constructor() {
         super();
-        this.options = [
-            {value: '', label: ''},
-            {value: 'Nature', label: 'Nature'},
-            {value: 'Psychology', label: 'Psychology'},
-            {value: 'Music', label: 'Music'},
-            {value: 'Programming', label: 'Programming'},
-            {value: 'Project Management', label: 'Project Management'},
-            {value: 'Other', label: 'Other'}
-        ];
     }
 
     submit = (post) => {
@@ -35,7 +27,7 @@ export default class PostCreate extends React.Component {
                     <LongTextField name="description"/>
                     <DateField name="createdAt" value = {new Date()} hidden={true}/>
                     <NumField name="views" value='0' hidden={true}/>
-                    <SelectField name="type" options={this.options}/>
+                    <SelectField name="type" options={PostTypesEnumArray}/>
                     <button type='submit'>Add post</button>
                     <button onClick={() => history.push('/posts')}>Back to posts</button>
                 </AutoForm>
