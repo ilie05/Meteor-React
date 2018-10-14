@@ -41,11 +41,22 @@ Meteor.methods({
         });
     },
 
+    'post.increment_views' (_id){
+        Posts.update(_id,{
+            $inc: {views: 1}
+        });
+    },
+
     'post.remove' (_id){
         Posts.remove(_id);
     },
 
     'post.get' (_id) {
-        return Posts.findOne(_id);
+        let post = Posts.findOne(_id)
+        if(post){
+            return Posts.findOne(_id);
+        }else{
+            throw new Meteor.Error('no-id found', 'ID fals');
+        }
     }
 });

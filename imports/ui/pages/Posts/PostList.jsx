@@ -28,7 +28,7 @@ export default class PostList extends React.Component {
                             <div key={post._id}>
                                 <p>Post id: {post._id} </p>
                                 <p>Post title: {post.title} </p>
-                                <p>Post Description: {post.description} </p>
+                                <p onClick={() => history.push('/posts/view/' + post._id)}>Post Description: {post.description} </p>
                                 <p>Post Type: {post.type} </p>
                                 <p>Post Date: {post.createdAt.toString()} </p>
                                 <p>Views: {post.views} </p>
