@@ -9,15 +9,8 @@ Meteor.methods({
            throw new Meteor.Error('no-type', 'This post type does not exist!');
         }
 
-        // Validation of date
-        if(post.createdAt != (new Date())){
-             post.createdAt = new Date();
-        }
-
-        //Number of views validation
-        if(post.views){
-            post.views = 0;
-        }
+        post.createdAt = new Date();
+        post.views = 0;
 
         Posts.insert(post);
     },

@@ -7,7 +7,15 @@ export default new SimplSchema({
         type: String,
         optional: true
     },
-    views: Number,
-    createdAt: Date,
+
+    views: {
+		type: Number,
+		optional: true
+    },
+
+    createdAt: {
+		type: Date,
+		optional: true
+    },
     type: String
 });

@@ -1,11 +1,21 @@
 import {Meteor} from 'meteor/meteor'
 import {Posts} from '/db';
 import Security from '/imports/api/security';
+import {PostTypesEnum} from '/imports/enums/postTypes';
 
 Meteor.methods({
     'secured.post_create'(post) {
         Security.checkLoggedIn(this.userId);
+
+        //validate post type
+        if (Object.values(PostTypesEnum).indexOf(post.type) < 0){
+           throw new Meteor.Error('no-type', 'This post type does not exist!');
+        }
+
+        post.createdAt = new Date();
+        post.views = 0;
         post.userId = this.userId;
+
         Posts.insert(post);
     },
 

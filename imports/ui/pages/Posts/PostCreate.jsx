@@ -9,7 +9,7 @@ export default class PostCreate extends React.Component {
     }
 
     submit = (post) => {
-        Meteor.call('post.create', post, (err) => {
+        Meteor.call('secured.post_create', post, (err) => {
             if (err) {
                 return alert(err.reason);
             }
@@ -25,8 +25,6 @@ export default class PostCreate extends React.Component {
                 <AutoForm onSubmit={this.submit} schema={PostSchema}>
                     <AutoField name="title"/>
                     <LongTextField name="description"/>
-                    <DateField name="createdAt" value = {new Date()} hidden={true}/>
-                    <NumField name="views" value='0' hidden={true}/>
                     <SelectField name="type" options={PostTypesEnumArray}/>
                     <button type='submit'>Add post</button>
                     <button onClick={() => history.push('/posts')}>Back to posts</button>
