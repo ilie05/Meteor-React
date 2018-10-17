@@ -14,6 +14,7 @@ Meteor.methods({
 
         post.createdAt = new Date();
         post.views = 0;
+        post.comments = 0;
         post.userId = this.userId;
 
         Posts.insert(post);

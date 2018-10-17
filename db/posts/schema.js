@@ -7,12 +7,14 @@ export default new SimplSchema({
         type: String,
         optional: true
     },
-
     views: {
 		type: Number,
 		optional: true
     },
-
+    comments: {
+        type: Number,
+        optional: true
+    },
     createdAt: {
 		type: Date,
 		optional: true

@@ -11,6 +11,7 @@ Meteor.methods({
 
         post.createdAt = new Date();
         post.views = 0;
+        post.comments = 0;
 
         Posts.insert(post);
     },
@@ -37,6 +38,12 @@ Meteor.methods({
     'post.increment_views' (_id){
         Posts.update(_id,{
             $inc: {views: 1}
+        });
+    },
+
+    'post.increment_comments' (_id){
+        Posts.update(_id,{
+            $inc: {comments: 1}
         });
     },
 
