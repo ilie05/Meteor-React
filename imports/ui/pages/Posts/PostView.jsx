@@ -43,7 +43,7 @@ export default class PostView extends React.Component{
 							this.props.history.push('/posts')
 						})
 					}}
-				label="Delete"
+				label="Delete post"
 				/>
 			}
 

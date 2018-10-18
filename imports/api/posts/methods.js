@@ -41,9 +41,9 @@ Meteor.methods({
         });
     },
 
-    'post.increment_comments' (_id){
+    'post.changeCommentsNumber' (_id, number){
         Posts.update(_id,{
-            $inc: {comments: 1}
+            $inc: {comments: number}
         });
     },
 

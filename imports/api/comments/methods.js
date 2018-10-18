@@ -12,7 +12,7 @@ Meteor.methods({
 			comment.userId = this.userId;
 			comment.postId = postId;
 			Comments.insert(comment);
-			Meteor.call('post.increment_comments', postId);
+			Meteor.call('post.changeCommentsNumber', postId, 1);
 		}else{
 			throw new Meteor.Error('invalid-post', 'the post does not exist')
 		}
@@ -24,5 +24,17 @@ Meteor.methods({
 
 	'comments_remove'(postId){
 		Comments.remove({postId: postId})
+	},
+
+	'secured.comment_remove' (commentId){
+		Security.checkLoggedIn(this.userId);
+		const comment = Comments.findOne({_id: commentId, userId: this.userId})
+		console.log(comment)
+		if(comment){
+			Comments.remove({_id: commentId})
+			Meteor.call('post.changeCommentsNumber', comment.postId, -1);
+		}else{
+			throw new Meteor.Error('invalid-action', 'the comment does not exist or you are not authorized to delete it')
+		}
 	}
 });

@@ -1,6 +1,7 @@
 import React from 'react'
 import {withTracker} from 'meteor/react-meteor-data';
 import {Comments} from '/db';
+import Button from '../Button'
 
 class CommentsView extends React.Component{
 	constructor(props){
@@ -21,10 +22,22 @@ class CommentsView extends React.Component{
 
         return (
             comments.map(comment =>{
+                if(comment.userId == Meteor.userId()){
+                        var button = <Button onClick={() => {
+                            Meteor.call('secured.comment_remove',comment._id, (err) => {
+                                if(err){
+                                    alert(err.reason)
+                                }
+                            })
+                        }}
+                    label="Delete comment"
+                    />
+                }
                 return (
                     <div className='comment' key={comment._id}>
                         <p>Comment: {comment.text}</p>
                         <p>Author: {comment.userId}</p>
+                        {button}
                     </div>
                 )
             })
