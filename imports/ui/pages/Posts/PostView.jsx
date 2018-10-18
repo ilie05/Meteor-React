@@ -42,8 +42,9 @@ export default class PostView extends React.Component{
 						Meteor.call('secured.post_remove',post._id, post.userId, () => {
 							this.props.history.push('/posts')
 						})
-					}
-				}/>
+					}}
+				label="Delete"
+				/>
 			}
 
 			return (

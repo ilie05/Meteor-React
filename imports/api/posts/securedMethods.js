@@ -37,7 +37,7 @@ Meteor.methods({
         Security.checkLoggedIn(userId)
         if(userId == this.userId){
             Posts.remove({_id: _id});
-            Meteor.call('comments_remove', postId);
+            Meteor.call('comments_remove', _id);
         }else{
             throw new Meteor.Error('not-authorized ', 'You are not authorized to delete this post!')
         }
