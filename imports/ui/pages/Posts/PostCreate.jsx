@@ -14,6 +14,7 @@ export default class PostCreate extends React.Component {
                 return alert(err.reason);
             }
             alert('Post added!')
+            this.props.history.push('/posts')
         });
     };
 

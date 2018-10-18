@@ -5,21 +5,29 @@ import {Comments} from '/db';
 class CommentsView extends React.Component{
 	constructor(props){
 		super(props);
+        this.state = {
+            userAddress: ''
+        };
 	}
 
 	render() {
         const {comments} = this.props;
+
+        if(this.props.loading){
+            return (
+                <div>Loading comments...</div>
+            )
+        }
+
         return (
-           	
-                comments.map((comment) =>{
-                	return (
-                		<div className='comment' key={comment._id}>
-                			<p>Comment: {comment.text}</p>
-                			<p>Author: {comment.userId}</p>
-                		</div>
-                	)
-                })
-                    	
+            comments.map(comment =>{
+                return (
+                    <div className='comment' key={comment._id}>
+                        <p>Comment: {comment.text}</p>
+                        <p>Author: {comment.userId}</p>
+                    </div>
+                )
+            })
         )
     }
 }

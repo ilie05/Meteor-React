@@ -2,6 +2,8 @@ import React from 'react'
 import NotFound from '../NotFound.jsx'
 import ListComments from '../Comments/ListComments'
 import CommentForm from '../Comments/CommentForm'
+import Button from '../Button'
+
 
 export default class PostView extends React.Component{
 	constructor(props){
@@ -23,14 +25,6 @@ export default class PostView extends React.Component{
 		});
 	}
 
-/*	submitComment = (comment) => {
-		Meteor.call('secured.comment_create', comment, this.state.post._id, (err) => {
-            if (err) {
-                return alert(err.reason);
-            }
-        });
-	}*/
-
 	render(){
 		const post = this.state.post;
 		const error = this.state.error;
@@ -39,9 +33,19 @@ export default class PostView extends React.Component{
 
 			if(Object.getOwnPropertyNames(post).length === 0){
 				return (
-					<div>Loading....</div>
+					<div>Loading post...</div>
 				)
 			}
+
+			if(post.userId == Meteor.userId()){
+					var button = <Button onClick={() => {
+						Meteor.call('secured.post_remove',post._id, post.userId, () => {
+							this.props.history.push('/posts')
+						})
+					}
+				}/>
+			}
+
 			return (
 				<div className="post">
 					<p>Post userID: {post.userId} </p>
@@ -51,6 +55,9 @@ export default class PostView extends React.Component{
 	                <p>Post Type: {post.type} </p>
 	                <p>Post Date: {post.createdAt.toString()} </p>
 	                <p>Post Views: {post.views} </p>
+
+	                {button}
+
 	                <hr/>
 
 	                <ListComments postId={post._id} />
@@ -58,13 +65,7 @@ export default class PostView extends React.Component{
 		            <hr/>
 
 		            <CommentForm postId={post._id}/>
-{/*	                <div className='comment-form'>
-						<AutoForm onSubmit={this.submitComment} schema={CommentSchema} validator={'text'}>
-							<LongTextField name='text' placeholder='Comment here...'/>
-		                    <button type='submit'>Add comment</button>
-		                    <button onClick={() => this.props.history.push('/posts')}>Back to posts</button>
-						</AutoForm>
-					</div>*/}
+
 					<button onClick={() => this.props.history.push('/posts')}>Back to posts</button>
 				</div>
 			)

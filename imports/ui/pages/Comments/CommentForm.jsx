@@ -1,5 +1,5 @@
 import React from 'react'
-import {AutoForm, LongTextField, TextField} from 'uniforms-unstyled';
+import {AutoForm, LongTextField} from 'uniforms-unstyled';
 import CommentSchema from '/db/comments/schema';
 
 export default class CommentForm extends React.Component{

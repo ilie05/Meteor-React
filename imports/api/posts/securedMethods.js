@@ -33,8 +33,14 @@ Meteor.methods({
         });
     },
 
-    'secured.post_remove' (_id){
-        Posts.remove({_id: _id, userId: this.userId});
+    'secured.post_remove' (_id, userId){
+        Security.checkLoggedIn(userId)
+        if(userId == this.userId){
+            Posts.remove({_id: _id});
+            Meteor.call('comments_remove', postId);
+        }else{
+            throw new Meteor.Error('not-authorized ', 'You are not authorized to delete this post!')
+        }
     },
 
     'secured.post_get' (_id) {
