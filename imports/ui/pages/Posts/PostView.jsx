@@ -49,7 +49,7 @@ export default class PostView extends React.Component{
 
 			return (
 				<div className="post">
-					<p>Post userID: {post.userId} </p>
+					<p>Post user: {post.author.emails[0].address} </p>
 	                <p>Post id: {post._id} </p>
 	                <p>Post title: {post.title} </p>
 	                <p>Post Description: {post.description} </p>

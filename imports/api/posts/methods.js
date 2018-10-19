@@ -1,5 +1,6 @@
 import {Meteor} from 'meteor/meteor'
 import {Posts} from '/db';
+import {Users} from '/db';
 import {PostTypesEnum} from '/imports/enums/postTypes';
 
 Meteor.methods({
@@ -58,12 +59,16 @@ Meteor.methods({
         Posts.remove(_id);
     },
 
-    'post.get' (_id) {
-        let post = Posts.findOne(_id)
-        if(post){
-            return Posts.findOne(_id);
-        }else{
-            throw new Meteor.Error('no-id found', 'post does not exits');
-        }
+    'post.get' (postId){
+        let post = Posts.createQuery({
+            $filters: {_id: postId},
+            title: 1,
+            type: 1,
+            createdAt: 1,
+            author: {
+                emails: 1
+            }
+        });
+        return post.fetchOne()
     }
 });
