@@ -22,9 +22,9 @@ class CommentsView extends React.Component{
 
         return (
             comments.map(comment =>{
-                if(comment.userId == Meteor.userId()){
+                if((comment.userId == Meteor.userId()) || (Meteor.userId() == this.props.postUserId)){
                         var button = <Button onClick={() => {
-                            Meteor.call('secured.comment_remove',comment._id, (err) => {
+                            Meteor.call('secured.comment_remove', comment, (err) => {
                                 if(err){
                                     alert(err.reason)
                                 }
@@ -45,12 +45,13 @@ class CommentsView extends React.Component{
     }
 }
 
-const ListComments = withTracker(({props, postId}) => {
+const ListComments = withTracker(({props, postId, postUserId}) => {
     const handle = Meteor.subscribe('comments', postId);
 
     return {
         loading: !handle.ready(),
         comments: Comments.find().fetch(),
+        postUserId: postUserId,
         ...props
     };
 })(CommentsView);

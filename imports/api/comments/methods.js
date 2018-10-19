@@ -26,12 +26,17 @@ Meteor.methods({
 		Comments.remove({postId: postId})
 	},
 
-	'secured.comment_remove' (commentId){
+	'secured.comment_remove' (comment){
 		Security.checkLoggedIn(this.userId);
-		const comment = Comments.findOne({_id: commentId, userId: this.userId})
-		console.log(comment)
-		if(comment){
-			Comments.remove({_id: commentId})
+
+		//null if the comment user is not logged in
+		const checkUserComment = Comments.findOne({_id: comment._id, userId: this.userId})
+
+		//null if the  post does not belong to the logged in user
+		const checkPostOwner = Posts.findOne({_id: comment.postId,userId: this.userId})
+
+		if(checkUserComment || checkPostOwner){
+			Comments.remove({_id: comment._id})
 			Meteor.call('post.changeCommentsNumber', comment.postId, -1);
 		}else{
 			throw new Meteor.Error('invalid-action', 'the comment does not exist or you are not authorized to delete it')

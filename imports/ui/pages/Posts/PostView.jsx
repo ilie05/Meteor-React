@@ -61,7 +61,7 @@ export default class PostView extends React.Component{
 
 	                <hr/>
 
-	                <ListComments postId={post._id} />
+	                <ListComments postId={post._id} postUserId={post.userId}/>
 
 		            <hr/>
 
