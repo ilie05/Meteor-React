@@ -1,4 +1,5 @@
 import React from 'react';
+import Button from '../Button'
 
 export default class PostList extends React.Component {
     constructor() {
@@ -24,6 +25,15 @@ export default class PostList extends React.Component {
             <div className="post">
                 {
                     posts.map((post) => {
+
+                        if(post.userId == Meteor.userId()){
+                            var button = <Button onClick={() => {
+                                    history.push("/posts/edit/" + post._id)
+                                }}
+                            label="Edit post"
+                            />
+                        }
+
                         return (
                             <div key={post._id}>
                                 <p>Post id: {post._id} </p>
@@ -33,10 +43,7 @@ export default class PostList extends React.Component {
                                 <p>Post Date: {post.createdAt.toString()} </p>
                                 <p>Views: {post.views} </p>
                                 <p>Comments: {post.comments} </p>
-                                <button onClick={() => {
-                                    history.push("/posts/edit/" + post._id)
-                                }}> Edit post
-                                </button>
+                                {button}
                             </div>
                         )
                     })

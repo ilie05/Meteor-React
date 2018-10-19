@@ -1,5 +1,5 @@
 import React from 'react';
-import {AutoForm, AutoField, LongTextField, SelectField, DateField, NumField} from 'uniforms-unstyled';
+import {AutoForm, AutoField, LongTextField, SelectField} from 'uniforms-unstyled';
 import PostSchema from '/db/posts/schema';
 import {PostTypesEnum, PostTypesEnumArray} from '/imports/enums/postTypes';
 

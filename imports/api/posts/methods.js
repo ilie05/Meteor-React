@@ -21,6 +21,13 @@ Meteor.methods({
     },
 
     'post.edit' (_id, post) {
+        const postMatch = Posts.findOne({_id: _id, userId: Meteor.userId()})
+        console.log(postMatch)
+
+        if(!postMatch){
+            throw new Meteor.Error('no-post', 'This post does not exist!');
+        }
+
         if (Object.values(PostTypesEnum).indexOf(post.type) < 0){
            throw new Meteor.Error('no-type', 'This post type does not exist!');
         }
@@ -56,7 +63,7 @@ Meteor.methods({
         if(post){
             return Posts.findOne(_id);
         }else{
-            throw new Meteor.Error('no-id found', 'ID fals');
+            throw new Meteor.Error('no-id found', 'post does not exits');
         }
     }
 });
