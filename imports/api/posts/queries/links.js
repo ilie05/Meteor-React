@@ -10,7 +10,7 @@ Posts.addLinks({
 })
 
 Posts.addLinks({
-    'comments': {
+    'allComments': {
         type: 'many',
         collection: Comments,
         field: 'commentsIds',

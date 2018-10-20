@@ -1,7 +1,7 @@
 import {Meteor} from 'meteor/meteor'
 import {Posts} from '/db';
-import {Users} from '/db';
 import {PostTypesEnum} from '/imports/enums/postTypes';
+import postQuery from '/imports/api/posts/queries/postQuery';
 
 Meteor.methods({
     'post.create'(post) {
@@ -18,16 +18,18 @@ Meteor.methods({
     },
 
     'post.list' () {
-        return Posts.find().fetch();
+        const query = postQuery.clone();
+        return query.fetch();
     },
 
     'post.edit' (_id, post) {
-        const postMatch = Posts.findOne({_id: _id, userId: Meteor.userId()})
+        const query = postQuery.clone({_id: _id, userId: Meteor.userId()});
+        postMatch = query.fetchOne();
 
         if(!postMatch){
             throw new Meteor.Error('no-post', 'This post does not exist!');
         }
-
+        //validate post type
         if (Object.values(PostTypesEnum).indexOf(post.type) < 0){
            throw new Meteor.Error('no-type', 'This post type does not exist!');
         }
@@ -59,15 +61,11 @@ Meteor.methods({
     },
 
     'post.get' (postId){
-        let post = Posts.createQuery({
-            $filters: {_id: postId},
-                title: 1,
-                type: 1,
-                createdAt: 1,
-                author: {
-                    emails: 1
-                }
-        });
-        return post.fetchOne()
+        const query = postQuery.clone({_id:_id});
+        if(!query.fetchOne()){
+             throw new Meteor.Error('no-post', 'This post does not exist!');
+        }
+
+        return query.fetchOne();
     }
 });

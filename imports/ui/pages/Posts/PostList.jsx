@@ -8,8 +8,12 @@ export default class PostList extends React.Component {
     }
 
     componentDidMount() {
-        Meteor.call('post.list', (err, posts) => {
-            this.setState({posts});
+        Meteor.call('secured.post_list', (err, posts) => {
+            if(err){
+                alert(err.reason);
+                this.props.history.push('/login')
+            }
+            this.setState({posts: posts});
         });
     }
 
@@ -26,7 +30,7 @@ export default class PostList extends React.Component {
                 {
                     posts.map((post) => {
 
-                        if(post.userId == Meteor.userId()){
+                        if(post.author._id == Meteor.userId()){
                             var button = <Button onClick={() => {
                                     history.push("/posts/edit/" + post._id)
                                 }}
@@ -40,7 +44,6 @@ export default class PostList extends React.Component {
                                 <p>Post title: {post.title} </p>
                                 <p onClick={() => history.push('/posts/view/' + post._id)}>Post Description: {post.description} </p>
                                 <p>Post Type: {post.type} </p>
-                                <p>Post Date: {post.createdAt.toString()} </p>
                                 <p>Views: {post.views} </p>
                                 <p>Comments: {post.comments} </p>
                                 {button}

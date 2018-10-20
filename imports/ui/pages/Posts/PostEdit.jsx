@@ -1,7 +1,7 @@
 import React from 'react';
 import {AutoForm, AutoField, SelectField, LongTextField} from 'uniforms-unstyled';
 import PostSchema from '/db/posts/schema';
-import {PostTypesEnum, PostTypesEnumArray} from '/imports/enums/postTypes';
+import {PostTypesEnumArray} from '/imports/enums/postTypes';
 import NotFound from '../NotFound.jsx'
 
 export default class PostEdit extends React.Component {
@@ -14,7 +14,7 @@ export default class PostEdit extends React.Component {
     }
 
     componentDidMount() {
-        Meteor.call('post.get', this.props.match.params._id, (err, gotPost) => {
+        Meteor.call('secured.post_get', this.props.match.params._id, (err, gotPost) => {
             if(err){
                 this.setState({error: err}) ;
             }else{
@@ -24,7 +24,7 @@ export default class PostEdit extends React.Component {
     }
 
     submit = (post) => {
-        Meteor.call('post.edit', this.props.match.params._id, post, (err) => {
+        Meteor.call('secured.post_edit', this.props.match.params._id, post, (err) => {
             if (err) {
                 return alert(err.reason);
             }

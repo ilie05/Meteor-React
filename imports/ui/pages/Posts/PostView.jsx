@@ -15,7 +15,7 @@ export default class PostView extends React.Component{
 	}
 
 	componentDidMount() {
-		Meteor.call('post.get', this.props.match.params._id, (err, gotPost) => {
+		Meteor.call('secured.post_get', this.props.match.params._id, (err, gotPost) => {
 			if(err){
 				this.setState({error: err})	;
 			}else{
@@ -54,7 +54,6 @@ export default class PostView extends React.Component{
 	                <p>Post title: {post.title} </p>
 	                <p>Post Description: {post.description} </p>
 	                <p>Post Type: {post.type} </p>
-	                <p>Post Date: {post.createdAt.toString()} </p>
 	                <p>Post Views: {post.views} </p>
 
 	                {button}

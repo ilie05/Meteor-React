@@ -1,5 +1,4 @@
 import React from 'react'
-import {Comments} from '/db';
 import commentQuery from '/imports/api/comments/queries/commentQuery';
 import Button from '../Button'
 import {Tracker} from 'meteor/tracker';
