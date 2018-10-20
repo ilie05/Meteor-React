@@ -2,11 +2,14 @@ import {Meteor} from 'meteor/meteor'
 import {Comments} from '/db';
 import {Posts} from '/db';
 import Security from '/imports/api/security';
+import commentQuery from '/imports/api/comments/queries/commentQuery';
+import postQuery from '/imports/api/posts/queries/postQuery';
 
 Meteor.methods({
 	'secured.comment_create'(comment, postId){
 		Security.checkLoggedIn(this.userId);
-		const post = Posts.findOne({_id: postId})
+		const query = postQuery.clone({_id: postId});
+        post = query.fetchOne();
 		//check is the post wasn't deleted 
 		if(post){
 			comment.userId = this.userId;
@@ -19,7 +22,9 @@ Meteor.methods({
 	},
 
 	'comment.list'(postId) {
-		return Comments.find({postId: postId}).fetch();
+		const query = commentQuery.clone({postId: postId});
+
+		return query.fetch();
 	},
 
 	'comments_remove'(postId){
@@ -30,12 +35,12 @@ Meteor.methods({
 		Security.checkLoggedIn(this.userId);
 
 		//null if the comment user is not logged in
-		const checkUserComment = Comments.findOne({_id: comment._id, userId: this.userId})
+		const checkUserCommentQuery = (commentQuery.clone({_id: comment._id, userId: this.userId})).fetchOne();
 
 		//null if the  post does not belong to the logged in user
-		const checkPostOwner = Posts.findOne({_id: comment.postId,userId: this.userId})
+		const checkPostOwnerQuery = (postQuery.clone({_id: comment.postId,userId: this.userId})).fetchOne();
 
-		if(checkUserComment || checkPostOwner){
+		if(checkUserCommentQuery || checkPostOwnerQuery){
 			Comments.remove({_id: comment._id})
 			Meteor.call('post.changeCommentsNumber', comment.postId, -1);
 		}else{

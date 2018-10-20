@@ -1,11 +1,12 @@
 import {Meteor} from 'meteor/meteor'
 import {Users} from '/db';
+import userQuery from '/imports/api/users/queries/userQuery';
 
 Meteor.methods({
     'user.register' (data) {
-        const user = Users.findOne({'emails.0.address': data.email});
+        const query = userQuery.clone({'emails.0.address': data.email});
 
-        if (user) {
+        if (query.fetchOne()) {
             throw new Meteor.Error(500, 'email_already_taken',
                 'Email already taken');
         }
