@@ -20,7 +20,6 @@ export default class Home extends React.Component {
             if(err) {
                 return alert(err.details);
             }
-            console.log(result);
         });
     };
 

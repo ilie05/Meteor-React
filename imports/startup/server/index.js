@@ -5,4 +5,6 @@ import '/imports/api/posts/publications';
 import '/imports/api/users/methods';
 import '/imports/api/comments/methods';
 import '/imports/api/comments/publications';
-import '/imports/db/posts/links';
+import '/imports/api/posts/queries/links';
+import '/imports/api/comments/queries/links';
+import '/imports/api/comments/queries/comments.expose';

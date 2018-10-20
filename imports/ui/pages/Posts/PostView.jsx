@@ -37,9 +37,9 @@ export default class PostView extends React.Component{
 				)
 			}
 
-			if(post.userId == Meteor.userId()){
+			if(post.author._id == Meteor.userId()){
 					var button = <Button onClick={() => {
-						Meteor.call('secured.post_remove',post._id, post.userId, () => {
+						Meteor.call('secured.post_remove',post._id, post.author._id, () => {
 							this.props.history.push('/posts')
 						})
 					}}
@@ -61,7 +61,7 @@ export default class PostView extends React.Component{
 
 	                <hr/>
 
-	                <ListComments postId={post._id} postUserId={post.userId}/>
+	                <ListComments postId={post._id} postUserId={post.author._id}/>
 
 		            <hr/>
 

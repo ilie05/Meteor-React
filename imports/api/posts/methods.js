@@ -23,7 +23,6 @@ Meteor.methods({
 
     'post.edit' (_id, post) {
         const postMatch = Posts.findOne({_id: _id, userId: Meteor.userId()})
-        console.log(postMatch)
 
         if(!postMatch){
             throw new Meteor.Error('no-post', 'This post does not exist!');
@@ -62,12 +61,12 @@ Meteor.methods({
     'post.get' (postId){
         let post = Posts.createQuery({
             $filters: {_id: postId},
-            title: 1,
-            type: 1,
-            createdAt: 1,
-            author: {
-                emails: 1
-            }
+                title: 1,
+                type: 1,
+                createdAt: 1,
+                author: {
+                    emails: 1
+                }
         });
         return post.fetchOne()
     }

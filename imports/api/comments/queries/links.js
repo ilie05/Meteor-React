@@ -1,6 +1,6 @@
-import {Posts} from '/db';
+import {Comments} from '/db';
 
-Posts.addLinks({
+Comments.addLinks({
     'author': {
         type: 'one',
         collection: Meteor.users,

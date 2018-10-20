@@ -1,18 +1,32 @@
 import React from 'react'
-import {withTracker} from 'meteor/react-meteor-data';
 import {Comments} from '/db';
+import commentQuery from '/imports/api/comments/queries/commentQuery';
 import Button from '../Button'
+import {Tracker} from 'meteor/tracker';
 
-class CommentsView extends React.Component{
+export default class CommentsView extends React.Component{
 	constructor(props){
 		super(props);
         this.state = {
-            userAddress: ''
+            loading: true,
+            comments: []
         };
 	}
 
+    componentDidMount(){
+        const query = commentQuery.clone({postId: this.props.postId});
+        const subscriptionHandle = query.subscribe();
+
+        Tracker.autorun(() => {
+            if (subscriptionHandle.ready()) {
+                this.setState({comments: query.fetch()})
+                this.setState({loading: false})
+            }
+        })
+    }
+
 	render() {
-        const {comments} = this.props;
+        const {comments} = this.state;
 
         if(this.props.loading){
             return (
@@ -22,7 +36,7 @@ class CommentsView extends React.Component{
 
         return (
             comments.map(comment =>{
-                if((comment.userId == Meteor.userId()) || (Meteor.userId() == this.props.postUserId)){
+                if((comment.author._id == Meteor.userId()) || (Meteor.userId() == this.props.postUserId)){
                         var button = <Button onClick={() => {
                             Meteor.call('secured.comment_remove', comment, (err) => {
                                 if(err){
@@ -36,7 +50,7 @@ class CommentsView extends React.Component{
                 return (
                     <div className='comment' key={comment._id}>
                         <p>Comment: {comment.text}</p>
-                        <p>Author: {comment.userId}</p>
+                        <p>Author: {comment.author.emails[0].address}</p>
                         {button}
                     </div>
                 )
@@ -44,16 +58,3 @@ class CommentsView extends React.Component{
         )
     }
 }
-
-const ListComments = withTracker(({props, postId, postUserId}) => {
-    const handle = Meteor.subscribe('comments', postId);
-
-    return {
-        loading: !handle.ready(),
-        comments: Comments.find().fetch(),
-        postUserId: postUserId,
-        ...props
-    };
-})(CommentsView);
-
-export default ListComments;
