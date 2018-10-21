@@ -1,7 +1,7 @@
 import React from 'react';
 import {AutoForm, AutoField, LongTextField, SelectField} from 'uniforms-unstyled';
 import PostSchema from '/db/posts/schema';
-import {PostTypesEnum, PostTypesEnumArray} from '/imports/enums/postTypes';
+import {PostTypesEnumArray} from '/imports/enums/postTypes';
 
 export default class PostCreate extends React.Component {
     constructor() {

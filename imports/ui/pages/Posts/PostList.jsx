@@ -1,20 +1,31 @@
 import React from 'react';
 import Button from '../Button'
+import postQuery from '/imports/api/posts/queries/postQuery';
+import {Tracker} from 'meteor/tracker';
 
 export default class PostList extends React.Component {
     constructor() {
         super();
-        this.state = {posts: null};
+        this.state = {
+            posts: null,
+            handle: null
+        };
     }
 
     componentDidMount() {
-        Meteor.call('secured.post_list', (err, posts) => {
-            if(err){
-                alert(err.reason);
-                this.props.history.push('/login')
+        const query = postQuery.clone();
+        const subscriptionHandle = query.subscribe();
+        this.setState({handle: subscriptionHandle})
+
+        Tracker.autorun(() => {
+            if (subscriptionHandle.ready()) {
+                this.setState({posts: query.fetch()})
             }
-            this.setState({posts: posts});
-        });
+        })
+    }
+
+    componentWillUnmount(){
+        this.state.handle.stop()
     }
 
     render() {

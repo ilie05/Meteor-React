@@ -10,7 +10,8 @@ export default class CommentForm extends React.Component{
 	submitComment = (comment) => {
 		Meteor.call('secured.comment_create', comment, this.props.postId, (err) => {
             if (err) {
-                return alert(err.reason);
+                alert(err.reason);
+                //this.props.history.push('/posts')
             }
         });
 	}	

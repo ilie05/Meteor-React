@@ -8,13 +8,15 @@ export default class CommentsView extends React.Component{
 		super(props);
         this.state = {
             loading: true,
-            comments: []
+            comments: [],
+            handle: null
         };
 	}
 
     componentDidMount(){
         const query = commentQuery.clone({postId: this.props.postId});
         const subscriptionHandle = query.subscribe();
+        this.setState({handle: subscriptionHandle})
 
         Tracker.autorun(() => {
             if (subscriptionHandle.ready()) {
@@ -22,6 +24,10 @@ export default class CommentsView extends React.Component{
                 this.setState({loading: false})
             }
         })
+    }
+
+    componentWillUnmount(){
+        this.state.handle.stop()
     }
 
 	render() {

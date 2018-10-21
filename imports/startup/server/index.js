@@ -8,3 +8,4 @@ import '/imports/api/comments/publications';
 import '/imports/api/posts/queries/links';
 import '/imports/api/comments/queries/links';
 import '/imports/api/comments/queries/comments.expose';
+import '/imports/api/posts/queries/posts.expose';
