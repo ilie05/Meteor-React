@@ -1,5 +1,4 @@
-import {Posts} from '/db';
-import {Comments} from '/db';
+import {Comments, Posts} from '/db';
 
 Posts.addLinks({
     'author': {
@@ -10,9 +9,8 @@ Posts.addLinks({
 })
 
 Posts.addLinks({
-    'allComments': {
-        type: 'many',
+    allComments: {
         collection: Comments,
-        field: 'commentsIds',
+        inversedBy: 'onePost',
     }
 })

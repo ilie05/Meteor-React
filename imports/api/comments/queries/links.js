@@ -1,4 +1,4 @@
-import {Comments} from '/db';
+import {Comments, Posts} from '/db';
 
 Comments.addLinks({
     'author': {
@@ -7,3 +7,11 @@ Comments.addLinks({
         field: 'userId',
     }
 })
+
+Comments.addLinks({
+    onePost: {
+        type: 'one',
+        field: 'postId',
+        collection: Posts,
+    },
+});

@@ -48,21 +48,20 @@ export default class PostView extends React.Component {
       return (
         <div className="post">
           <p>Post user: {post.author.emails[0].address} </p>
-	                <p>Post id: {post._id} </p>
-	                <p>Post title: {post.title} </p>
-	                <p>Post Description: {post.description} </p>
-	                <p>Post Type: {post.type} </p>
-	                <p>Post Views: {post.views} </p>
+          <p>Post title: {post.title} </p>
+          <p>Post Description: {post.description} </p>
+          <p>Post Type: {post.type} </p>
+          <p>Post Views: {post.views} </p>
 
-	                {button}
+          {button}
 
-	                <hr/>
+          <hr/>
 
-	                <ListComments postId={post._id} postUserId={post.author._id}/>
+          <ListComments postId={post._id} postUserId={post.author._id}/>
 
-		            <hr/>
+          <hr/>
 
-		            <CommentForm postId={post._id}/>
+          <CommentForm postId={post._id}/>
 
           <button onClick={() => this.props.history.push('/posts')}>Back to posts</button>
         </div>

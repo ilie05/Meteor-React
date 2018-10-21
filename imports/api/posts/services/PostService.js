@@ -47,8 +47,8 @@ export default class PostService{
 
     static remove(_id, userId){
         if(userId == Meteor.userId()){
-            Posts.remove({_id: _id});
             Meteor.call('comments_remove', _id);
+            Posts.remove({_id: _id});
         }else{
             throw new Meteor.Error('not-authorized ', 'You are not authorized to delete this post!')
         }
