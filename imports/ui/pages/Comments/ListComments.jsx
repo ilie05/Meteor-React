@@ -2,6 +2,7 @@ import React from 'react'
 import commentQuery from '/imports/api/comments/queries/commentQuery'
 import Button from '../Button'
 import { Tracker } from 'meteor/tracker'
+import '/client/style/style.css'
 
 export default class CommentsView extends React.Component {
   constructor (props) {
@@ -54,8 +55,8 @@ export default class CommentsView extends React.Component {
         }
         return (
           <div className='comment' key={comment._id}>
-            <p>Comment: {comment.text}</p>
-            <p>Author: {comment.author.emails[0].address}</p>
+            <p className='text'>Comment: {comment.text}</p>
+            <p className='author'>Author: {comment.author.emails[0].address}</p>
             {button}
           </div>
         )

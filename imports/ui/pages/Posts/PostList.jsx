@@ -37,7 +37,7 @@ export default class PostList extends React.Component {
     }
 
     return (
-      <div className="post">
+      <div>
         {
           posts.map((post) => {
             if (post.author._id == Meteor.userId()) {
@@ -49,13 +49,14 @@ export default class PostList extends React.Component {
             }
 
             return (
-              <div key={post._id}>
-                <p>Post title: {post.title} </p>
-                <p onClick={() => history.push('/posts/view/' + post._id)} style={{cursor:'pointer'}}>Post Description: {post.description} </p>
-                <p>Views: {post.views} </p>
-                <p>Comments: {post.comments} </p>
+              <div key={post._id} className="post">
+                <span onClick={() => history.push('/posts/view/' + post._id)} style={{cursor:'pointer'}}>
+                  <p>Post title: {post.title} </p>
+                  <p>Post Description: {post.description} </p>
+                  <p>Views: {post.views} </p>
+                  <p>Comments: {post.comments} </p>
+                </span>
                 {button}
-                <hr/>
               </div>
             )
           })

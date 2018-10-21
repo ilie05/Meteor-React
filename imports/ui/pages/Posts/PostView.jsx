@@ -46,7 +46,7 @@ export default class PostView extends React.Component {
       }
 
       return (
-        <div className="post">
+        <div>
           <p>Post user: {post.author.emails[0].address} </p>
           <p>Post title: {post.title} </p>
           <p>Post Description: {post.description} </p>
