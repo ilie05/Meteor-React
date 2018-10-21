@@ -58,6 +58,7 @@ export default class PostList extends React.Component {
                                 <p>Views: {post.views} </p>
                                 <p>Comments: {post.comments} </p>
                                 {button}
+                                <hr/>
                             </div>
                         )
                     })
